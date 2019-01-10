@@ -6,7 +6,8 @@ var allReviews = require("../controllers/reviewController");
 
 router
     .route("/hotels")
-    .get(allHotels.hotelsGetAll);
+    .get(allHotels.hotelsGetAll)
+    .post(allHotels.hotelsAddOne);
 
 router
     .route("/hotels/:hotelID")
@@ -20,7 +21,8 @@ router
 // routes for reviews
 router
     .route("/hotels/:hotelID/reviews")
-    .get(allReviews.reviewsGetAll);
+    .get(allReviews.reviewsGetAll)
+    .post(allReviews.reviewsAddOne);
 
 router  
     .route("/hotels/:hotelID/reviews/:reviewID")
