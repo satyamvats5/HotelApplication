@@ -11,7 +11,8 @@ router
 
 router
     .route("/hotels/:hotelID")
-    .get(allHotels.hotelsGetOne);
+    .get(allHotels.hotelsGetOne)
+    .put(allHotels.hotelsUpdateOne);
 
 router
     .route("/hotels/new")
