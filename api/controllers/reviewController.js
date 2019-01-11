@@ -76,4 +76,49 @@ module.exports.reviewsAddOne = function(req, res) {
                 .json(response.message);
             }
         });
-}
+};
+
+module.exports.reviewsUpdateOne = function(req, res) {
+    var hotelID = req.params.hotelID;
+    var reviewID = req.params.reviewID;
+    hotel
+        .findById(hotelID)
+        .select('reviews')
+        .exec(function(err, doc) {
+            var curReview;
+            var response = {
+                status: 200,
+                message: []
+            };
+            if(err) {
+                response.status = 500;
+                response.message = err;
+            } else if(!doc) {
+                response.status = 404;
+                response.message = {
+                    "message": "Hotel-ID not found in database: " + hotelID
+                };
+            }
+            curReview = doc.reviews.id(reviewID);
+            if(response.status != 200) {
+                res
+                    .status(response.status)
+                    .json(response.message);
+            } else {
+                curReview.name = req.body.name;
+                curReview.rating = parseInt(req.body.rating, 10);
+                curReview.review = req.body.review;
+                doc.save(function(err, updatedHotel) {
+                    if(err) {
+                        res 
+                            .status(500)
+                            .json(err);
+                    } else {
+                        res
+                            .status(204)
+                            .json();
+                    }
+                });
+            }
+        });
+};
