@@ -204,7 +204,7 @@ module.exports.hotelsUpdateOne = function(req, res) {
                 doc.save(function(err, updatedHotel) {
                     if(err) {
                         res
-                            .stats(500)
+                            .status(500)
                             .json(err);
                     } else {
                         res
@@ -212,6 +212,24 @@ module.exports.hotelsUpdateOne = function(req, res) {
                             .json();
                     }
                 });
+            }
+        });
+};
+
+module.exports.hotelsDeleteOne = function(req, res) {
+    hotelID = req.params.hotelID;
+    hotel
+        .findByIdAndRemove(hotelID)
+        .exec(function(err, doc) {
+            if(err) {
+                res
+                    .status(404)
+                    .json(err);
+            } else {
+                console.log("Hotel is deleted, ID: ", hotelID);
+                res
+                    .status(200)
+                    .json();
             }
         });
 };
